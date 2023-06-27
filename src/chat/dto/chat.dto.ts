@@ -1,0 +1,24 @@
+export class ChatRoomCreateDto {
+  name: string;
+}
+
+export class ChatJoinDto {
+  userId: number;
+  roomId: number;
+}
+
+export class ChatCreateDto {
+  userId: number;
+  roomId: number;
+  message: number;
+}
+
+export class ChatLikeDto {
+  userId: number;
+  chatId: number;
+}
+
+export class ChatNoticeDto {
+  roomdId: number;
+  chatId: number;
+}

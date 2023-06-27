@@ -2,7 +2,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-export const TypeOrmTestBase = ([entities]) =>
+export const TypeOrmTestBase = (entities: Array<any>) =>
   TypeOrmModule.forRootAsync({
     imports: [ConfigModule],
     inject: [ConfigService],
@@ -15,13 +15,13 @@ export const TypeOrmTestBase = ([entities]) =>
         password: `common`,
         port: 5432,
         synchronize: process.env.NODE_ENV === 'prod' ? false : true,
-        logging: process.env.NODE_ENV === 'prod' ? false : false,
+        logging: process.env.NODE_ENV === 'prod' ? false : true,
         namingStrategy: new SnakeNamingStrategy(),
         ssl:
           process.env.NODE_ENV === 'prod'
             ? { rejectUnauthorized: false }
             : false,
-        entities: [entities],
+        entities: entities,
       };
     },
   });

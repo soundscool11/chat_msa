@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ChatJoinEntity } from './entity/chat-join.entity';
+import { ChatLikeEntity } from './entity/chat-like.entity';
 import { ChatRoomEntity } from './entity/chat-room.entity';
 import { ChatEntity } from './entity/chat.entity';
 import { UserEntity } from './entity/user.entity';
@@ -27,7 +28,13 @@ import { UserEntity } from './entity/user.entity';
             process.env.NODE_ENV === 'prod'
               ? { rejectUnauthorized: false }
               : false,
-          entities: [UserEntity, ChatJoinEntity, ChatRoomEntity, ChatEntity],
+          entities: [
+            UserEntity,
+            ChatJoinEntity,
+            ChatRoomEntity,
+            ChatEntity,
+            ChatLikeEntity,
+          ],
         };
       },
     }),
