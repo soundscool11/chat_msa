@@ -116,7 +116,7 @@ export class ChatService {
       },
       relations: {
         chatLikes: true,
-        room: true,
+        sender: true,
       },
       order: {
         id: 'desc',

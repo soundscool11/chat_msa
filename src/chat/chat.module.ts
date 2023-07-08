@@ -20,6 +20,7 @@ import { ChatLikeEntity } from 'src/data/entity/chat-like.entity';
     ]),
   ],
   providers: [ChatService, ChatGateway],
+  exports: [ChatService],
   controllers: [ChatController],
 })
 export class ChatModule {}

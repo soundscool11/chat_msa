@@ -58,13 +58,17 @@
   <body>
     <h1>채팅</h1>
 
+    <ul id="chatMessages">
+      {{#each messages}}
+        <li>{{sender.name}}: {{content}}</li>
+      {{/each}}
+    </ul>
+
     <form id="chatForm">
       <label for="message">메시지:</label>
       <input type="text" id="message" required />
       <button type="submit">전송</button>
     </form>
-
-    <ul id="chatMessages"></ul>
 
     <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
     <script>
@@ -73,9 +77,9 @@
       const chatMessages = document.querySelector('#chatMessages');
       const roomId = {{roomId}};
       const userId = {{userId}};
+      
       const socket = new io('http://localhost:3000/'); // WebSocket 서버 주소에 맞게 수정해주세요.
       
-
       console.log('roomId', roomId)
       console.log('userId', userId)
 
@@ -105,10 +109,18 @@
         console.log(event.chat)
         
         const message = event.chat
+        appendMessage(message)
+      });
+
+      function appendMessage(message) {
         const listItem = document.createElement('li');
         listItem.textContent = `${message.sender.name}: ${message.content}`;
         chatMessages.appendChild(listItem);
-      });
+        
+        if (chatMessages.children.length > 10) {
+          chatMessages.removeChild(chatMessages.children[0]);
+        }
+      }
     </script>
   </body>
 </html>
