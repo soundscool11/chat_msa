@@ -6,13 +6,12 @@ import { ChatRoomEntity } from 'src/data/entity/chat-room.entity';
 import { ChatEntity } from 'src/data/entity/chat.entity';
 import { UserEntity } from 'src/data/entity/user.entity';
 import { CommonException } from 'src/exception/common.exception';
-import { DataSource, In, LessThan, Repository } from 'typeorm';
+import { In, LessThan, Repository } from 'typeorm';
 import { ChatRoomModel } from './model/chat.models';
 
 @Injectable()
 export class ChatService {
   constructor(
-    private dataSource: DataSource,
     @InjectRepository(ChatEntity)
     private chatRepository: Repository<ChatEntity>,
     @InjectRepository(ChatRoomEntity)
@@ -126,13 +125,26 @@ export class ChatService {
     });
   }
 
-  async createChat(userId: number, roomId: number, message: string) {
+  async createChat(
+    userId: number,
+    roomId: number,
+    message: string,
+  ): Promise<ChatEntity> {
     const chat = new ChatEntity();
     chat.senderId = userId;
     chat.roomId = roomId;
     chat.content = message;
 
     await this.chatRepository.save(chat);
+
+    return await this.chatRepository.findOne({
+      where: {
+        id: chat.id,
+      },
+      relations: {
+        sender: true,
+      },
+    });
   }
 
   async likeChat(userId: number, chatId: number) {

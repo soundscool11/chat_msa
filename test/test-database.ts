@@ -9,7 +9,7 @@ export const TypeOrmTestBase = (entities: Array<any>) =>
     useFactory: () => {
       return {
         type: 'postgres',
-        database: `mucochat_test`,
+        database: `mucochat`,
         host: `localhost`,
         username: `common`,
         password: `common`,
