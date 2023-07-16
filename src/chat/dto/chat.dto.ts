@@ -10,7 +10,7 @@ export class ChatJoinDto {
 export class ChatCreateDto {
   userId: number;
   roomId: number;
-  message: number;
+  message: string;
 }
 
 export class ChatLikeDto {

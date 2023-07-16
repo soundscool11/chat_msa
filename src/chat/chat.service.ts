@@ -57,17 +57,24 @@ export class ChatService {
     lastRoomId: number,
     size: number,
   ): Promise<Array<ChatRoomEntity>> {
-    return await this.chatRoomRepository
-      .createQueryBuilder('cr')
-      .innerJoin(
-        ChatJoinEntity,
-        'cj',
-        `cj.roomId = cr.id and cj.userId = ${userId}`,
-      )
-      .andWhere(`cr.id < ${lastRoomId}`)
-      .orderBy('cr.id', 'DESC')
-      .limit(size)
-      .getMany();
+    if (userId > 0) {
+      return await this.chatRoomRepository
+        .createQueryBuilder('cr')
+        .innerJoin(
+          ChatJoinEntity,
+          'cj',
+          `cj.roomId = cr.id and cj.userId = ${userId}`,
+        )
+        .andWhere(`cr.id < ${lastRoomId}`)
+        .orderBy('cr.id', 'DESC')
+        .limit(size)
+        .getMany();
+    } else {
+      return await this.chatRoomRepository.find({
+        order: { id: 'desc' },
+        take: size,
+      });
+    }
   }
 
   async join(userId: number, roomId: number) {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConsoleLogger, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/data/entity/user.entity';
 import { CommonException } from 'src/exception/common.exception';
@@ -18,8 +18,15 @@ export class UserService {
     try {
       return await this.userRepository.save(user);
     } catch (e) {
+      console.log(e);
       throw new CommonException(999, 'failed to create user');
     }
+  }
+
+  async getUsers(): Promise<Array<UserEntity>> {
+    const users = await this.userRepository.find({ order: { id: 'desc' } });
+
+    return users;
   }
 
   async getUser(id: number): Promise<UserEntity> {

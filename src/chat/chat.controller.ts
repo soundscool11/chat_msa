@@ -3,6 +3,7 @@ import { ChatRoomEntity } from 'src/data/entity/chat-room.entity';
 import { ChatEntity } from 'src/data/entity/chat.entity';
 import { ChatService } from './chat.service';
 import {
+  ChatCreateDto,
   ChatJoinDto,
   ChatLikeDto,
   ChatNoticeDto,
@@ -63,5 +64,14 @@ export class ChatController {
     @Query('size') size: number,
   ): Promise<Array<ChatEntity>> {
     return await this.chatService.getChatMessages(roomId, lastChatId, size);
+  }
+
+  @Post('/message')
+  async createMessage(@Body() dto: ChatCreateDto) {
+    return await this.chatService.createChat(
+      dto.userId,
+      dto.roomId,
+      dto.message,
+    );
   }
 }

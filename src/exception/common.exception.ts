@@ -21,7 +21,7 @@ export class CommonExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const resp = ctx.getResponse<Response>();
 
-    resp.status(HttpStatus.OK).json({
+    resp.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       code: exception.code,
       message: exception.message,
     });
