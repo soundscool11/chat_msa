@@ -13,6 +13,7 @@ export class AppController {
   @Render('index')
   async root(@Query('roomId') roomId: number, @Query('userId') userId: number) {
     const messages = await this.chatService.getChatMessages(
+      userId,
       roomId,
       ~(1 << 31),
       10,

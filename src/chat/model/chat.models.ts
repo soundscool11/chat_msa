@@ -8,3 +8,14 @@ export type ChatRoomModel = {
   noticeChat: ChatEntity;
   createdAt: Date;
 };
+
+export type ChatModel = {
+  id: number;
+  content: string;
+  sender: UserEntity;
+  senderId: number;
+  roomId: number;
+  likeCount: number;
+  liked: boolean;
+  createdAt: Date;
+};

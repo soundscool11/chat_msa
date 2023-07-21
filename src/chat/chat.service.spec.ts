@@ -90,6 +90,7 @@ describe('ChatService', () => {
     }
 
     const userChatList = await chatService.getChatMessages(
+      0,
       chatRoom.id,
       MAX_INT,
       50,
@@ -100,32 +101,34 @@ describe('ChatService', () => {
 
   it('like chat', async () => {
     const chatList = await chatService.getChatMessages(
+      0,
       chatRoom.id,
       MAX_INT,
       50,
     );
 
+    const likeUserId = chatList[0].senderId;
+
     for (const chat of chatList) {
-      await chatService.likeChat(chat.senderId, chat.id);
+      await chatService.likeChat(likeUserId, chat.id);
     }
 
     const newChatList = await chatService.getChatMessages(
+      likeUserId,
       chatRoom.id,
       MAX_INT,
       50,
     );
 
     for (const chat of newChatList) {
-      const liked = chat.chatLikes
-        .map((like) => like.userId)
-        .filter((userId) => userId !== chat.senderId).length;
-
-      expect(liked).toBe(0);
+      expect(chat.liked).toBe(true);
+      expect(chat.likeCount).toBeGreaterThan(0);
     }
   });
 
   it('notice chat', async () => {
     const chatList = await chatService.getChatMessages(
+      0,
       chatRoom.id,
       MAX_INT,
       50,

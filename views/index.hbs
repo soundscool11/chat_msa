@@ -53,6 +53,32 @@
         margin-bottom: 10px;
         border-radius: 4px;
       }
+
+      /* 채팅 메시지 스타일 */
+      .chat-message {
+        color: #333;
+        font-size: 16px;
+      }
+
+      /* 좋아요 정보 스타일 */
+      .like-info {
+        display: flex;
+        align-items: center;
+        color: #666;
+        font-size: 14px;
+      }
+
+      /* 좋아요 개수 스타일 */
+      .like-count {
+        font-size: 14px;
+        margin-right: 5px;
+        font-weight: bold;
+      }
+
+      /* 좋아요 아이콘 스타일 */
+      .like-icon {
+        font-size: 20px;
+      }
     </style>
   </head>
   <body>
@@ -60,7 +86,10 @@
 
     <ul id="chatMessages">
       {{#each messages}}
-        <li>{{sender.name}}: {{content}}</li>
+        <li>
+          <span class="chat-message">{{sender.name}}: {{content}} </span><br/>
+          <span class="like-count">liked: {{liked}} count: {{likeCount}}</span>
+        </li>
       {{/each}}
     </ul>
 

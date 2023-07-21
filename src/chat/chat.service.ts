@@ -6,8 +6,8 @@ import { ChatRoomEntity } from 'src/data/entity/chat-room.entity';
 import { ChatEntity } from 'src/data/entity/chat.entity';
 import { UserEntity } from 'src/data/entity/user.entity';
 import { CommonException } from 'src/exception/common.exception';
-import { In, LessThan, Repository } from 'typeorm';
-import { ChatRoomModel } from './model/chat.models';
+import { In, Repository } from 'typeorm';
+import { ChatModel, ChatRoomModel } from './model/chat.models';
 
 @Injectable()
 export class ChatService {
@@ -112,24 +112,45 @@ export class ChatService {
   }
 
   async getChatMessages(
+    searchUserId: number,
     roomId: number,
     lastChatId: number,
     size: number,
-  ): Promise<Array<ChatEntity>> {
-    return await this.chatRepository.find({
-      where: {
-        id: LessThan(lastChatId),
-        roomId: roomId,
-      },
-      relations: {
-        chatLikes: true,
-        sender: true,
-      },
-      order: {
-        id: 'desc',
-      },
-      take: size,
+  ): Promise<Array<ChatModel>> {
+    const chatList = await this.chatRepository
+      .createQueryBuilder('chat')
+      .leftJoinAndSelect(
+        'chat.likes',
+        'chat_like',
+        `chat_like.userId = ${searchUserId}`,
+      )
+      .innerJoinAndSelect('chat.sender', 'user', 'chat.senderId = user.id')
+      .where(`chat.roomId = ${roomId}`)
+      .andWhere(`chat.id < ${lastChatId}`)
+      .orderBy(`chat.id`, 'DESC')
+      .limit(size)
+      .getMany();
+
+    const chatModelList = chatList.map(async (entity) => {
+      const chatLikes = await this.chatLikeRepository.find({
+        where: {
+          chatId: entity.id,
+        },
+      });
+
+      return {
+        id: entity.id,
+        content: entity.content,
+        sender: entity.sender,
+        senderId: entity.senderId,
+        roomId: entity.roomId,
+        liked: entity.likes.length > 0,
+        likeCount: chatLikes.length,
+        createdAt: entity.createdAt,
+      };
     });
+
+    return await Promise.all(chatModelList);
   }
 
   async createChat(
@@ -150,6 +171,7 @@ export class ChatService {
       },
       relations: {
         sender: true,
+        likes: true,
       },
     });
   }

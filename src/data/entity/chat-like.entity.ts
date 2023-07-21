@@ -22,7 +22,7 @@ export class ChatLikeEntity {
   @ManyToOne(() => UserEntity)
   user: UserEntity;
 
-  @ManyToOne(() => ChatEntity, (c) => c.chatLikes)
+  @ManyToOne(() => ChatEntity, (c) => c.likes)
   chat: ChatEntity;
 
   @CreateDateColumn()

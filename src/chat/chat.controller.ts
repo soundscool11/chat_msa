@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { ChatRoomEntity } from 'src/data/entity/chat-room.entity';
-import { ChatEntity } from 'src/data/entity/chat.entity';
 import { ChatService } from './chat.service';
 import {
   ChatCreateDto,
@@ -9,7 +8,7 @@ import {
   ChatNoticeDto,
   ChatRoomCreateDto as RoomCreateDto,
 } from './dto/chat.dto';
-import { ChatRoomModel } from './model/chat.models';
+import { ChatModel, ChatRoomModel } from './model/chat.models';
 
 @Controller('chat')
 export class ChatController {
@@ -59,11 +58,17 @@ export class ChatController {
   @Get('/message/list')
   async listMessage(
     @Req() req: any,
+    @Query('userId') userId: number | undefined | null,
     @Query('roomId') roomId: number,
     @Query('lastChatId') lastChatId: number,
     @Query('size') size: number,
-  ): Promise<Array<ChatEntity>> {
-    return await this.chatService.getChatMessages(roomId, lastChatId, size);
+  ): Promise<Array<ChatModel>> {
+    return await this.chatService.getChatMessages(
+      userId > 0 ? userId : 0,
+      roomId,
+      lastChatId,
+      size,
+    );
   }
 
   @Post('/message')

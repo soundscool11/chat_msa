@@ -28,7 +28,7 @@ export class ChatEntity {
   roomId: number;
 
   @OneToMany(() => ChatLikeEntity, (cl) => cl.chat)
-  chatLikes: Array<ChatLikeEntity>;
+  likes: Array<ChatLikeEntity>;
 
   @Column()
   content: string;
