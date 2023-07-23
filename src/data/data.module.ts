@@ -24,10 +24,7 @@ import { UserEntity } from './entity/user.entity';
           synchronize: process.env.NODE_ENV === 'prod' ? false : true,
           logging: process.env.NODE_ENV === 'prod' ? false : false,
           namingStrategy: new SnakeNamingStrategy(),
-          ssl:
-            process.env.NODE_ENV === 'prod'
-              ? { rejectUnauthorized: false }
-              : false,
+          ssl: { rejectUnauthorized: false },
           entities: [
             UserEntity,
             ChatJoinEntity,
