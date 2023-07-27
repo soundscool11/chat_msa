@@ -19,6 +19,14 @@ export class AppController {
       10,
     );
 
-    return { roomId, userId, messages };
+    const room = await this.chatService.getRoom(roomId);
+
+    return {
+      roomId,
+      userId,
+      messages: messages.reverse(),
+      notice:
+        room.noticeChat !== null ? room.noticeChat.content : '공지가 없습니다',
+    };
   }
 }

@@ -16,6 +16,10 @@
         text-align: center;
       }
 
+      h2 {
+        text-align: center;
+      }
+
       form {
         margin-bottom: 20px;
       }
@@ -83,12 +87,12 @@
   </head>
   <body>
     <h1>채팅</h1>
+    <h2>{{notice}}</h2>
 
     <ul id="chatMessages">
       {{#each messages}}
         <li>
-          <span class="chat-message">{{sender.name}}: {{content}} </span><br/>
-          <span class="like-count">liked: {{liked}} count: {{likeCount}}</span>
+          {{sender.name}}: {{content}} | liked: {{liked}} count: {{likeCount}}
         </li>
       {{/each}}
     </ul>
@@ -143,7 +147,7 @@
 
       function appendMessage(message) {
         const listItem = document.createElement('li');
-        listItem.textContent = `${message.sender.name}: ${message.content}`;
+        listItem.textContent = `${message.sender.name}: ${message.content} | liked: ${message.liked} count: ${message.likeCount}`;
         chatMessages.appendChild(listItem);
         
         if (chatMessages.children.length > 10) {

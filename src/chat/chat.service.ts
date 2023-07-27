@@ -132,25 +132,29 @@ export class ChatService {
       .getMany();
 
     const chatModelList = chatList.map(async (entity) => {
-      const chatLikes = await this.chatLikeRepository.find({
-        where: {
-          chatId: entity.id,
-        },
-      });
-
-      return {
-        id: entity.id,
-        content: entity.content,
-        sender: entity.sender,
-        senderId: entity.senderId,
-        roomId: entity.roomId,
-        liked: entity.likes.length > 0,
-        likeCount: chatLikes.length,
-        createdAt: entity.createdAt,
-      };
+      return await this.convertChatModel(entity);
     });
 
     return await Promise.all(chatModelList);
+  }
+
+  async convertChatModel(entity: ChatEntity) {
+    const chatLikes = await this.chatLikeRepository.find({
+      where: {
+        chatId: entity.id,
+      },
+    });
+
+    return {
+      id: entity.id,
+      content: entity.content,
+      sender: entity.sender,
+      senderId: entity.senderId,
+      roomId: entity.roomId,
+      liked: entity.likes.length > 0,
+      likeCount: chatLikes.length,
+      createdAt: entity.createdAt,
+    };
   }
 
   async createChat(

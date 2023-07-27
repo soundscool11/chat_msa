@@ -55,8 +55,10 @@ export class ChatGateway {
         body.message,
       );
 
+      const chatModel = await this.chatService.convertChatModel(chatEntity);
+
       this.server.to(this.socketRoomName(body.roomId)).emit('message', {
-        chat: chatEntity,
+        chat: chatModel,
       });
     } catch (e) {
       console.log(e);
