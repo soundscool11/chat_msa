@@ -21,8 +21,8 @@ import { UserEntity } from './entity/user.entity';
           username: process.env.DB_USER,
           password: process.env.DB_PW,
           port: parseInt(process.env.DB_PORT, 10),
-          synchronize: process.env.NODE_ENV === 'prod' ? false : true,
-          logging: process.env.NODE_ENV === 'prod' ? false : false,
+          synchronize: false,
+          logging: true,
           namingStrategy: new SnakeNamingStrategy(),
           ssl: { rejectUnauthorized: false },
           entities: [
