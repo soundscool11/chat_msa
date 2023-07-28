@@ -22,7 +22,7 @@ import { UserEntity } from './entity/user.entity';
           password: process.env.DB_PW,
           port: parseInt(process.env.DB_PORT, 10),
           synchronize: false,
-          logging: true,
+          logging: false,
           namingStrategy: new SnakeNamingStrategy(),
           ssl: { rejectUnauthorized: false },
           entities: [
