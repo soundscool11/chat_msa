@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { ChatModule } from './chat/chat.module';
 import { DataModule } from './data/data.module';
+import { ContentModule } from './content/content.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { DataModule } from './data/data.module';
     UserModule,
     ChatModule,
     DataModule,
+    ContentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

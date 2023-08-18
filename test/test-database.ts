@@ -14,8 +14,8 @@ export const TypeOrmTestBase = (entities: Array<any>) =>
         username: `common`,
         password: `common`,
         port: 5432,
-        synchronize: process.env.NODE_ENV === 'prod' ? false : true,
-        logging: process.env.NODE_ENV === 'prod' ? false : true,
+        synchronize: true,
+        logging: true,
         namingStrategy: new SnakeNamingStrategy(),
         ssl:
           process.env.NODE_ENV === 'prod'

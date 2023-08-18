@@ -6,6 +6,8 @@ import { ChatJoinEntity } from './entity/chat-join.entity';
 import { ChatLikeEntity } from './entity/chat-like.entity';
 import { ChatRoomEntity } from './entity/chat-room.entity';
 import { ChatEntity } from './entity/chat.entity';
+import { ContentLikeEntity } from './entity/content-like.entity';
+import { ContentEntity } from './entity/content.entity';
 import { UserEntity } from './entity/user.entity';
 
 @Module({
@@ -31,6 +33,8 @@ import { UserEntity } from './entity/user.entity';
             ChatRoomEntity,
             ChatEntity,
             ChatLikeEntity,
+            ContentEntity,
+            ContentLikeEntity,
           ],
         };
       },
