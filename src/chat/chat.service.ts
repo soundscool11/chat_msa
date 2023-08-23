@@ -40,6 +40,11 @@ export class ChatService {
 
   async getRoom(id: number): Promise<ChatRoomModel> {
     const roomEntity = await this.getRoomEntity(id);
+
+    if (!roomEntity) {
+      throw new CommonException(999, 'invalid room id');
+    }
+
     const userIds = roomEntity.chatJoins.map((e) => e.userId);
 
     return {
