@@ -11,7 +11,7 @@ import { ContentModule } from './content/content.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `${process.env.NODE_ENV}.env`,
+      envFilePath: `dev.env`,
     }),
     UserModule,
     ChatModule,
