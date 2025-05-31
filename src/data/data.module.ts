@@ -15,18 +15,18 @@ import { UserEntity } from './entity/user.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: () => {
+      useFactory: (config: ConfigService) => {
         return {
           type: 'postgres',
-          database: process.env.DB_NAME,
-          host: process.env.DB_HOST,
-          username: process.env.DB_USER,
-          password: process.env.DB_PW,
-          port: parseInt(process.env.DB_PORT, 10),
-          synchronize: true,
+          database: config.get<string>('DB_NAME'),
+          host: config.get<string>('DB_HOST'),
+          username: config.get<string>('DB_USER'),
+          password: config.get<string>('DB_PW'),
+          port: config.get<number>('DB_PORT'),
+          synchronize: config.get<string>('NODE_ENV') !== 'production',
           logging: false,
           namingStrategy: new SnakeNamingStrategy(),
-          ssl: { rejectUnauthorized: false },
+          ssl: false,
           entities: [
             UserEntity,
             ChatJoinEntity,

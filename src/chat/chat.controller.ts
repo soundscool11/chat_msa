@@ -14,6 +14,8 @@ import { ChatModel, ChatRoomModel } from './model/chat.models';
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
+  // 채팅방 생성
+  // localhost:3000/chat/room
   @Post('/room')
   async createRoom(
     @Req() req: any,
@@ -22,6 +24,8 @@ export class ChatController {
     return await this.chatService.createRoom(dto.name);
   }
 
+  // 채팅방 조회
+  // localhost:3000/chat/room?roomId=1
   @Get('/room')
   async getRoom(
     @Req() req: any,
@@ -30,6 +34,8 @@ export class ChatController {
     return await this.chatService.getRoom(roomId);
   }
 
+  // 채팅방 전체 목록 조회 (최신순 & 상위 n개)
+  // localhost:3000/chat/room/list?userId=1&lastRoomId=0&size=10
   @Get('/room/list')
   async getRoomList(
     @Req() req: any,
@@ -40,21 +46,33 @@ export class ChatController {
     return await this.chatService.getRoomList(userId, lastRoomId, size);
   }
 
+  // 채팅방 참여
+  // localhost:3000/chat/room/join
+  // body: { userId: 1, roomId: 1 }
   @Post('/room/join')
   async joinRoom(@Req() req: any, @Body() dto: ChatJoinDto) {
     return await this.chatService.join(dto.userId, dto.roomId);
   }
 
+  // 채팅방 알림
+  // localhost:3000/chat/room/notice
+  // body: { roomId: 1, chatId: 1 }
   @Post('/room/notice')
   async noticeRoom(@Req() req: any, @Body() dto: ChatNoticeDto) {
     return await this.chatService.noticeChat(dto.roomdId, dto.chatId);
   }
 
+  // 메세지 좋아요
+  // localhost:3000/chat/message/like
+  // body: { userId: 1, chatId: 1 }
   @Post('/message/like')
   async likeMessage(@Req() req: any, @Body() dto: ChatLikeDto) {
     return await this.chatService.likeChat(dto.userId, dto.chatId);
   }
 
+  // 메세지 목록 조회 (최신순 & 상위 n개)
+  // localhost:3000/chat/message/list?userId=1&roomId=1&lastChatId=0&size=10
+  // userId는 null일 경우 0으로 처리
   @Get('/message/list')
   async listMessage(
     @Req() req: any,
@@ -71,6 +89,9 @@ export class ChatController {
     );
   }
 
+  // 메세지 보내기
+  // localhost:3000/chat/message
+  // body: { userId: 1, roomId: 1, message: 'hello' }
   @Post('/message')
   async createMessage(@Body() dto: ChatCreateDto) {
     return await this.chatService.createChat(
